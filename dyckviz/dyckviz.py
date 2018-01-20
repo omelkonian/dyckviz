@@ -391,7 +391,7 @@ def render_all_orbits(k, n, output):
     count_orbits(k, n)
     for i, orbit in enumerate(all_orbits(k, n), start=1):
         # Taquin
-        print('-------------- [{}] (rank: {}) ----------------'.format(i, orbit_max_rank(orbit)))
+        print('-------------- [{}] ----------------'.format(i, orbit_max_rank(orbit)))
         render_promotion(orbit[0], k)
         # Webs (only for k = 3)
         if k == 3:
