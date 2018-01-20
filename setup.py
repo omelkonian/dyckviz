@@ -12,7 +12,7 @@ setup(
     name='dyckviz',
     description='Visualization utilities for Dyck words using Young tableaux and combinatorial spider webs.',
     entry_points = { "console_scripts": ['dyckviz = dyckviz.dyckviz:main'] },
-    version = '0.3.0',
+    version = '0.4.0',
     author='Orestis Melkonian, Konstantinos Kogkalidis',
     author_email='melkon.or@gmail.com, konstantinos@riseup.net',
     url='http://github.com/omelkonian/dyckviz',
