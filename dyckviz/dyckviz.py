@@ -155,20 +155,22 @@ def orbit(word):
 
 
 def render_promotion(word, k):
+    def print_c(char, color):
+        print('\033[38;5;0m\033[48;5;{}m{}\033[0;00m'.format(int(color), char), end='')
+
     l = len(word)
     N = int(l/k)
-    HSV_tuples = [(x * 1.0 / N, .5, 1) for x in range(N)]
-    RGB_tuples = list(map(lambda x: tuple(map(lambda i: int(i * 255), colorsys.hsv_to_rgb(*x))), HSV_tuples))
+    colors = [(x/N) * (220 - 30) + 30 for x in range(N)]
     colored_word = [()] * l
     for i, word in enumerate(orbit_sort_by_rank(orbit(word)), start=1):
         tab = w2t(word)
         for ic, col in enumerate(tab.T):
-            col_color = RGB_tuples[ic]
+            col_color = colors[ic]
             for ir in col:
                 colored_word[ir - 1] = (word[ir - 1], col_color)
         print('{}.\t'.format(i), end='')
-        for char, rgb in colored_word:
-            print(color(char, fg='black', bg='rgb{}'.format(str(rgb))), end='')
+        for char, color in colored_word:
+            print_c(char, color)
         print()
 
 
@@ -194,7 +196,7 @@ class Web(object):
         self.g = Digraph('graph')
         self.g.attr(rankdir='TB')
         self.g.attr(newrank='true')
-        self.g.attr(ranksep='1.2')
+        self.g.attr(ranksep=str(0 + (len(word)/15)))
         # self.g.attr(nodesep='0')
         self.g.attr(splines='false')
 
