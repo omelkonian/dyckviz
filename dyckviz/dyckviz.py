@@ -127,7 +127,8 @@ def taquin_mod(words, out=[]):
 ########################################################################################################################
 def all_orbits(k, n):
     orbits = taquin_mod(list(idyck(k, n)))
-    return orbits_sort_by_length(list(map(lambda orbit: orbit_sort_by_rank(orbit), orbits)))
+    return list(map(lambda orbit: orbit_sort_by_rank(orbit), orbits))
+    # return orbits_sort_by_length(list(map(lambda orbit: orbit_sort_by_rank(orbit), orbits)))
 
 
 def orbits_sort_by_length(orbits):
@@ -147,7 +148,11 @@ def orbit_sort_by_rank(orbit):
 
 
 def rank_word(word):
-    return max([sum(map(lambda t: abs(t[0] - t[1]), zip(col, col[1:]))) for col in w2t(word).T])
+    return max([sum(map(lambda t: t[1] - t[0], zip(col, col[1:]))) for col in w2t(word).T])
+
+
+def rank_word_min(word):
+    return min([sum(map(lambda t: t[1] - t[0], zip(col, col[1:]))) for col in w2t(word).T])
 
 
 def orbit(word):
@@ -162,16 +167,25 @@ def render_promotion(word, k):
     N = int(l/k)
     colors = [(x/N) * (220 - 30) + 30 for x in range(N)]
     colored_word = [()] * l
-    for i, word in enumerate(orbit_sort_by_rank(orbit(word)), start=1):
-        tab = w2t(word)
-        for ic, col in enumerate(tab.T):
-            col_color = colors[ic]
-            for ir in col:
-                colored_word[ir - 1] = (word[ir - 1], col_color)
+    # for i, word in enumerate(orbit_sort_by_rank(orbit(word)), start=1):
+    for i, word in enumerate(orbit(word), start=1):
+        stack_a = []
+        stack_b = []
+        colors2 = [x for x in colors]
         print('{}.\t'.format(i), end='')
-        for char, color in colored_word:
-            print_c(char, color)
-        print()
+        for c in word:
+            if c == 'a':
+                c_a = colors2.pop()
+                print_c('a', c_a)
+                stack_a.append(c_a)
+            elif c == 'b':
+                c_b = stack_a.pop()
+                print_c('b', c_b)
+                stack_b.append(c_b)
+            else:
+                c_c = stack_b.pop()
+                print_c('c', c_c)
+        print('\t ({})'.format(rank_word_min(word)))
 
 
 ########################################################################################################################
