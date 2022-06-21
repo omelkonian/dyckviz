@@ -23,7 +23,7 @@ setup(
     install_requires=[
         'ansicolors==1.1.8',
         'graphviz==0.8.2',
-        'numpy==1.14.0',
+        'numpy==1.22.0',
         'pdfrw==0.4',
     ],
 )
